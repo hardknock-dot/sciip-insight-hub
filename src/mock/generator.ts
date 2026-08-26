@@ -284,9 +284,12 @@ for (let i = 0; i < 88; i += 1) {
       totalInvoicedAmount: invoicedAmount,
       unitPrice: part.unitPrice,
       needsReview,
-      reviewReason: needsReview
-        ? "Delivery event without matching invoice event in SAP sales register."
-        : undefined,
+      ...(needsReview
+        ? {
+            reviewReason:
+              "Delivery event without matching invoice event in SAP sales register.",
+          }
+        : {}),
       leadTimeDays: firstShipDate ? diffDays(soDate, firstShipDate) : null,
     });
 
