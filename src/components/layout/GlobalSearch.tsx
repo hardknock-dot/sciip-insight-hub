@@ -29,7 +29,7 @@ export function GlobalSearch() {
                 key={`${r.entity}-${r.id}`}
                 onClick={() => {
                   setTerm("");
-                  void navigate({ to: r.href });
+                  void navigate({ to: r.href as "/" });
                 }}
                 className="flex w-full items-baseline justify-between gap-3 rounded px-3 py-1.5 text-left text-sm hover:bg-surface-raised"
               >
