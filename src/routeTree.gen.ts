@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CustomersIndexRouteImport } from './routes/customers.index'
 import { Route as CustomersCustomerIdRouteImport } from './routes/customers.$customerId'
 import { Route as PartsIndexRouteImport } from './routes/parts.index'
+import { Route as PartsPartIdRouteImport } from './routes/parts.$partId'
 import { Route as TransactionsIndexRouteImport } from './routes/transactions.index'
 import { Route as TransactionsLineIdRouteImport } from './routes/transactions.$lineId'
 
@@ -36,6 +37,11 @@ const PartsIndexRoute = PartsIndexRouteImport.update({
   path: '/parts/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartsPartIdRoute = PartsPartIdRouteImport.update({
+  id: '/parts/$partId',
+  path: '/parts/$partId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TransactionsIndexRoute = TransactionsIndexRouteImport.update({
   id: '/transactions/',
   path: '/transactions/',
@@ -50,6 +56,7 @@ const TransactionsLineIdRoute = TransactionsLineIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
+  '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
   '/customers/': typeof CustomersIndexRoute
   '/parts/': typeof PartsIndexRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
+  '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
   '/customers': typeof CustomersIndexRoute
   '/parts': typeof PartsIndexRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
+  '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
   '/customers/': typeof CustomersIndexRoute
   '/parts/': typeof PartsIndexRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/customers/$customerId'
+    | '/parts/$partId'
     | '/transactions/$lineId'
     | '/customers/'
     | '/parts/'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/customers/$customerId'
+    | '/parts/$partId'
     | '/transactions/$lineId'
     | '/customers'
     | '/parts'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/customers/$customerId'
+    | '/parts/$partId'
     | '/transactions/$lineId'
     | '/customers/'
     | '/parts/'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CustomersCustomerIdRoute: typeof CustomersCustomerIdRoute
+  PartsPartIdRoute: typeof PartsPartIdRoute
   TransactionsLineIdRoute: typeof TransactionsLineIdRoute
   CustomersIndexRoute: typeof CustomersIndexRoute
   PartsIndexRoute: typeof PartsIndexRoute
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/parts/$partId': {
+      id: '/parts/$partId'
+      path: '/parts/$partId'
+      fullPath: '/parts/$partId'
+      preLoaderRoute: typeof PartsPartIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/transactions/': {
       id: '/transactions/'
       path: '/transactions'
@@ -158,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CustomersCustomerIdRoute: CustomersCustomerIdRoute,
+  PartsPartIdRoute: PartsPartIdRoute,
   TransactionsLineIdRoute: TransactionsLineIdRoute,
   CustomersIndexRoute: CustomersIndexRoute,
   PartsIndexRoute: PartsIndexRoute,
