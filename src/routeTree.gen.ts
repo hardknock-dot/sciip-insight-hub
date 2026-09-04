@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TransactionsIndexRouteImport } from './routes/transactions.index'
+import { Route as TransactionsLineIdRouteImport } from './routes/transactions.$lineId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const TransactionsIndexRoute = TransactionsIndexRouteImport.update({
   path: '/transactions/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TransactionsLineIdRoute = TransactionsLineIdRouteImport.update({
+  id: '/transactions/$lineId',
+  path: '/transactions/$lineId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/transactions/$lineId': typeof TransactionsLineIdRoute
   '/transactions/': typeof TransactionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/transactions/$lineId': typeof TransactionsLineIdRoute
   '/transactions': typeof TransactionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/transactions/$lineId': typeof TransactionsLineIdRoute
   '/transactions/': typeof TransactionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/transactions/'
+  fullPaths: '/' | '/transactions/$lineId' | '/transactions/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/transactions'
-  id: '__root__' | '/' | '/transactions/'
+  to: '/' | '/transactions/$lineId' | '/transactions'
+  id: '__root__' | '/' | '/transactions/$lineId' | '/transactions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  TransactionsLineIdRoute: typeof TransactionsLineIdRoute
   TransactionsIndexRoute: typeof TransactionsIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TransactionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/transactions/$lineId': {
+      id: '/transactions/$lineId'
+      path: '/transactions/$lineId'
+      fullPath: '/transactions/$lineId'
+      preLoaderRoute: typeof TransactionsLineIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  TransactionsLineIdRoute: TransactionsLineIdRoute,
   TransactionsIndexRoute: TransactionsIndexRoute,
 }
 export const routeTree = rootRouteImport
