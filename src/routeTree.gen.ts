@@ -10,6 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as DemandRouteImport } from './routes/demand'
+import { Route as ForecastRouteImport } from './routes/forecast'
+import { Route as InventoryRouteImport } from './routes/inventory'
+import { Route as ManagementRouteImport } from './routes/management'
+import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as SalesIntelligenceRouteImport } from './routes/sales-intelligence'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as CustomersIndexRouteImport } from './routes/customers.index'
 import { Route as CustomersCustomerIdRouteImport } from './routes/customers.$customerId'
 import { Route as PartsIndexRouteImport } from './routes/parts.index'
@@ -20,6 +28,46 @@ import { Route as TransactionsLineIdRouteImport } from './routes/transactions.$l
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CopilotRoute = CopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemandRoute = DemandRouteImport.update({
+  id: '/demand',
+  path: '/demand',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForecastRoute = ForecastRouteImport.update({
+  id: '/forecast',
+  path: '/forecast',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventoryRoute = InventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManagementRoute = ManagementRouteImport.update({
+  id: '/management',
+  path: '/management',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineRoute = PipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SalesIntelligenceRoute = SalesIntelligenceRouteImport.update({
+  id: '/sales-intelligence',
+  path: '/sales-intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersIndexRoute = CustomersIndexRouteImport.update({
@@ -55,6 +103,14 @@ const TransactionsLineIdRoute = TransactionsLineIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/demand': typeof DemandRoute
+  '/forecast': typeof ForecastRoute
+  '/inventory': typeof InventoryRoute
+  '/management': typeof ManagementRoute
+  '/pipeline': typeof PipelineRoute
+  '/sales-intelligence': typeof SalesIntelligenceRoute
+  '/settings': typeof SettingsRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -64,6 +120,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/demand': typeof DemandRoute
+  '/forecast': typeof ForecastRoute
+  '/inventory': typeof InventoryRoute
+  '/management': typeof ManagementRoute
+  '/pipeline': typeof PipelineRoute
+  '/sales-intelligence': typeof SalesIntelligenceRoute
+  '/settings': typeof SettingsRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -74,6 +138,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/demand': typeof DemandRoute
+  '/forecast': typeof ForecastRoute
+  '/inventory': typeof InventoryRoute
+  '/management': typeof ManagementRoute
+  '/pipeline': typeof PipelineRoute
+  '/sales-intelligence': typeof SalesIntelligenceRoute
+  '/settings': typeof SettingsRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -85,6 +157,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/copilot'
+    | '/demand'
+    | '/forecast'
+    | '/inventory'
+    | '/management'
+    | '/pipeline'
+    | '/sales-intelligence'
+    | '/settings'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -94,6 +174,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/copilot'
+    | '/demand'
+    | '/forecast'
+    | '/inventory'
+    | '/management'
+    | '/pipeline'
+    | '/sales-intelligence'
+    | '/settings'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -103,6 +191,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/copilot'
+    | '/demand'
+    | '/forecast'
+    | '/inventory'
+    | '/management'
+    | '/pipeline'
+    | '/sales-intelligence'
+    | '/settings'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -113,6 +209,14 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CopilotRoute: typeof CopilotRoute
+  DemandRoute: typeof DemandRoute
+  ForecastRoute: typeof ForecastRoute
+  InventoryRoute: typeof InventoryRoute
+  ManagementRoute: typeof ManagementRoute
+  PipelineRoute: typeof PipelineRoute
+  SalesIntelligenceRoute: typeof SalesIntelligenceRoute
+  SettingsRoute: typeof SettingsRoute
   CustomersCustomerIdRoute: typeof CustomersCustomerIdRoute
   PartsPartIdRoute: typeof PartsPartIdRoute
   TransactionsLineIdRoute: typeof TransactionsLineIdRoute
@@ -128,6 +232,62 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/copilot': {
+      id: '/copilot'
+      path: '/copilot'
+      fullPath: '/copilot'
+      preLoaderRoute: typeof CopilotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demand': {
+      id: '/demand'
+      path: '/demand'
+      fullPath: '/demand'
+      preLoaderRoute: typeof DemandRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forecast': {
+      id: '/forecast'
+      path: '/forecast'
+      fullPath: '/forecast'
+      preLoaderRoute: typeof ForecastRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventory': {
+      id: '/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof InventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/management': {
+      id: '/management'
+      path: '/management'
+      fullPath: '/management'
+      preLoaderRoute: typeof ManagementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline': {
+      id: '/pipeline'
+      path: '/pipeline'
+      fullPath: '/pipeline'
+      preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sales-intelligence': {
+      id: '/sales-intelligence'
+      path: '/sales-intelligence'
+      fullPath: '/sales-intelligence'
+      preLoaderRoute: typeof SalesIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customers/': {
@@ -177,6 +337,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CopilotRoute: CopilotRoute,
+  DemandRoute: DemandRoute,
+  ForecastRoute: ForecastRoute,
+  InventoryRoute: InventoryRoute,
+  ManagementRoute: ManagementRoute,
+  PipelineRoute: PipelineRoute,
+  SalesIntelligenceRoute: SalesIntelligenceRoute,
+  SettingsRoute: SettingsRoute,
   CustomersCustomerIdRoute: CustomersCustomerIdRoute,
   PartsPartIdRoute: PartsPartIdRoute,
   TransactionsLineIdRoute: TransactionsLineIdRoute,
