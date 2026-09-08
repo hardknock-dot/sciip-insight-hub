@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CopilotRouteImport } from './routes/copilot'
 import { Route as DemandRouteImport } from './routes/demand'
 import { Route as ForecastRouteImport } from './routes/forecast'
 import { Route as InventoryRouteImport } from './routes/inventory'
@@ -25,6 +26,11 @@ import { Route as TransactionsLineIdRouteImport } from './routes/transactions.$l
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CopilotRoute = CopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemandRoute = DemandRouteImport.update({
@@ -85,6 +91,7 @@ const TransactionsLineIdRoute = TransactionsLineIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
   '/demand': typeof DemandRoute
   '/forecast': typeof ForecastRoute
   '/inventory': typeof InventoryRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
   '/demand': typeof DemandRoute
   '/forecast': typeof ForecastRoute
   '/inventory': typeof InventoryRoute
@@ -114,6 +122,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
   '/demand': typeof DemandRoute
   '/forecast': typeof ForecastRoute
   '/inventory': typeof InventoryRoute
@@ -130,6 +139,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/copilot'
     | '/demand'
     | '/forecast'
     | '/inventory'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/copilot'
     | '/demand'
     | '/forecast'
     | '/inventory'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/copilot'
     | '/demand'
     | '/forecast'
     | '/inventory'
@@ -173,6 +185,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CopilotRoute: typeof CopilotRoute
   DemandRoute: typeof DemandRoute
   ForecastRoute: typeof ForecastRoute
   InventoryRoute: typeof InventoryRoute
@@ -193,6 +206,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/copilot': {
+      id: '/copilot'
+      path: '/copilot'
+      fullPath: '/copilot'
+      preLoaderRoute: typeof CopilotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demand': {
@@ -277,6 +297,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CopilotRoute: CopilotRoute,
   DemandRoute: DemandRoute,
   ForecastRoute: ForecastRoute,
   InventoryRoute: InventoryRoute,
