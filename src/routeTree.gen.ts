@@ -17,6 +17,7 @@ import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as ManagementRouteImport } from './routes/management'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as SalesIntelligenceRouteImport } from './routes/sales-intelligence'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as CustomersIndexRouteImport } from './routes/customers.index'
 import { Route as CustomersCustomerIdRouteImport } from './routes/customers.$customerId'
 import { Route as PartsIndexRouteImport } from './routes/parts.index'
@@ -64,6 +65,11 @@ const SalesIntelligenceRoute = SalesIntelligenceRouteImport.update({
   path: '/sales-intelligence',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CustomersIndexRoute = CustomersIndexRouteImport.update({
   id: '/customers/',
   path: '/customers/',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/management': typeof ManagementRoute
   '/pipeline': typeof PipelineRoute
   '/sales-intelligence': typeof SalesIntelligenceRoute
+  '/settings': typeof SettingsRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/management': typeof ManagementRoute
   '/pipeline': typeof PipelineRoute
   '/sales-intelligence': typeof SalesIntelligenceRoute
+  '/settings': typeof SettingsRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -137,6 +145,7 @@ export interface FileRoutesById {
   '/management': typeof ManagementRoute
   '/pipeline': typeof PipelineRoute
   '/sales-intelligence': typeof SalesIntelligenceRoute
+  '/settings': typeof SettingsRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -155,6 +164,7 @@ export interface FileRouteTypes {
     | '/management'
     | '/pipeline'
     | '/sales-intelligence'
+    | '/settings'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/management'
     | '/pipeline'
     | '/sales-intelligence'
+    | '/settings'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/management'
     | '/pipeline'
     | '/sales-intelligence'
+    | '/settings'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -204,6 +216,7 @@ export interface RootRouteChildren {
   ManagementRoute: typeof ManagementRoute
   PipelineRoute: typeof PipelineRoute
   SalesIntelligenceRoute: typeof SalesIntelligenceRoute
+  SettingsRoute: typeof SettingsRoute
   CustomersCustomerIdRoute: typeof CustomersCustomerIdRoute
   PartsPartIdRoute: typeof PartsPartIdRoute
   TransactionsLineIdRoute: typeof TransactionsLineIdRoute
@@ -270,6 +283,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SalesIntelligenceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/customers/': {
       id: '/customers/'
       path: '/customers'
@@ -324,6 +344,7 @@ const rootRouteChildren: RootRouteChildren = {
   ManagementRoute: ManagementRoute,
   PipelineRoute: PipelineRoute,
   SalesIntelligenceRoute: SalesIntelligenceRoute,
+  SettingsRoute: SettingsRoute,
   CustomersCustomerIdRoute: CustomersCustomerIdRoute,
   PartsPartIdRoute: PartsPartIdRoute,
   TransactionsLineIdRoute: TransactionsLineIdRoute,
