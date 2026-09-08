@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemandRouteImport } from './routes/demand'
 import { Route as ForecastRouteImport } from './routes/forecast'
 import { Route as InventoryRouteImport } from './routes/inventory'
+import { Route as SalesIntelligenceRouteImport } from './routes/sales-intelligence'
 import { Route as CustomersIndexRouteImport } from './routes/customers.index'
 import { Route as CustomersCustomerIdRouteImport } from './routes/customers.$customerId'
 import { Route as PartsIndexRouteImport } from './routes/parts.index'
@@ -38,6 +39,11 @@ const ForecastRoute = ForecastRouteImport.update({
 const InventoryRoute = InventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SalesIntelligenceRoute = SalesIntelligenceRouteImport.update({
+  id: '/sales-intelligence',
+  path: '/sales-intelligence',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersIndexRoute = CustomersIndexRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/demand': typeof DemandRoute
   '/forecast': typeof ForecastRoute
   '/inventory': typeof InventoryRoute
+  '/sales-intelligence': typeof SalesIntelligenceRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/demand': typeof DemandRoute
   '/forecast': typeof ForecastRoute
   '/inventory': typeof InventoryRoute
+  '/sales-intelligence': typeof SalesIntelligenceRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/demand': typeof DemandRoute
   '/forecast': typeof ForecastRoute
   '/inventory': typeof InventoryRoute
+  '/sales-intelligence': typeof SalesIntelligenceRoute
   '/customers/$customerId': typeof CustomersCustomerIdRoute
   '/parts/$partId': typeof PartsPartIdRoute
   '/transactions/$lineId': typeof TransactionsLineIdRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/demand'
     | '/forecast'
     | '/inventory'
+    | '/sales-intelligence'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/demand'
     | '/forecast'
     | '/inventory'
+    | '/sales-intelligence'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/demand'
     | '/forecast'
     | '/inventory'
+    | '/sales-intelligence'
     | '/customers/$customerId'
     | '/parts/$partId'
     | '/transactions/$lineId'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   DemandRoute: typeof DemandRoute
   ForecastRoute: typeof ForecastRoute
   InventoryRoute: typeof InventoryRoute
+  SalesIntelligenceRoute: typeof SalesIntelligenceRoute
   CustomersCustomerIdRoute: typeof CustomersCustomerIdRoute
   PartsPartIdRoute: typeof PartsPartIdRoute
   TransactionsLineIdRoute: typeof TransactionsLineIdRoute
@@ -188,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/inventory'
       fullPath: '/inventory'
       preLoaderRoute: typeof InventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sales-intelligence': {
+      id: '/sales-intelligence'
+      path: '/sales-intelligence'
+      fullPath: '/sales-intelligence'
+      preLoaderRoute: typeof SalesIntelligenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customers/': {
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   DemandRoute: DemandRoute,
   ForecastRoute: ForecastRoute,
   InventoryRoute: InventoryRoute,
+  SalesIntelligenceRoute: SalesIntelligenceRoute,
   CustomersCustomerIdRoute: CustomersCustomerIdRoute,
   PartsPartIdRoute: PartsPartIdRoute,
   TransactionsLineIdRoute: TransactionsLineIdRoute,
