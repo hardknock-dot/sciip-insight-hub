@@ -36,7 +36,8 @@ import type {
 } from "@/types";
 
 /** Flip to "LIVE" once the FastAPI backend is reachable. */
-export const DATA_MODE: "MOCK" | "LIVE" = "MOCK";
+export const DATA_MODE = "MOCK" as "MOCK" | "LIVE";
+
 
 const latency = 120;
 const ok = <T,>(value: T): Promise<T> =>
