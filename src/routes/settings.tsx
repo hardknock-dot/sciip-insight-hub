@@ -64,8 +64,9 @@ function SettingsPage() {
               <dd className="font-mono text-xs">{status.source}</dd>
             </div>
             <div className="flex items-center justify-between gap-3">
-              <dt className="text-muted-foreground">Generated</dt>
-              <dd className="font-mono text-xs">{fmtDateTime(status.generatedAt)}</dd>
+              <dt className="text-muted-foreground">Last sync</dt>
+              <dd className="font-mono text-xs">{fmtDateTime(status.lastSync)}</dd>
+
             </div>
             <div className="flex items-center justify-between gap-3">
               <dt className="text-muted-foreground">Records</dt>
