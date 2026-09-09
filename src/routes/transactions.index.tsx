@@ -136,8 +136,9 @@ function TransactionExplorer() {
           columns={cols}
           rows={data?.items ?? []}
           rowKey={(l) => l.lineId}
-          sortBy={query.sortBy}
-          sortDir={query.sortDir}
+          sortBy={query.sortBy ?? "lineId"}
+          sortDir={query.sortDir ?? "desc"}
+
           onSort={sort}
           onRowClick={(l) => void navigate({ to: "/transactions/$lineId", params: { lineId: l.lineId } })}
         />
