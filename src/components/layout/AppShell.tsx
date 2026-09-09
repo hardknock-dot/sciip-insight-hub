@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   Activity,
   Boxes,
@@ -55,7 +55,10 @@ function isActive(pathname: string, to: string) {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const { data: status } = useQuery(dataStatusQuery);
+  const { data: fetched } = useQuery(dataStatusQuery);
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  const status = hydrated ? fetched : undefined;
 
   return (
     <div className="min-h-screen bg-background text-foreground">

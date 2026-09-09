@@ -26,16 +26,45 @@ export const Route = createFileRoute("/pipeline")({
   component: PipelinePage,
 });
 
-const stageTone = {
-  HEALTHY: "success",
-  DEGRADED: "warning",
+const runTone = {
+  IDLE: "neutral",
+  RUNNING: "info",
+  SUCCESS: "success",
   FAILED: "critical",
-  PENDING: "neutral",
 } as const;
+
+const logTone = { INFO: "neutral", WARN: "warning", ERROR: "critical" } as const;
 
 function PipelinePage() {
   const { data } = useSuspenseQuery(pipelineQuery);
   const { data: status } = useSuspenseQuery(dataStatusQuery);
+
+  const stages = [
+    {
+      name: "Data foundation",
+      detail: "SAP sales register rows imported, cleaned and validated",
+      records: data.rowsImported,
+      note: `${fmtQty(data.rowsCleaned)} cleaned · ${fmtQty(data.rowsExcluded)} excluded`,
+    },
+    {
+      name: "Transaction state engine",
+      detail: "Order, delivery and invoice events reconstructed into demand lines",
+      records: data.demandLinesReconstructed,
+      note: `${fmtQty(data.openLines)} open · ${fmtQty(data.closedLines)} closed`,
+    },
+    {
+      name: "Knowledge engine",
+      detail: "Customer, part and project knowledge aggregated from line state",
+      records: data.demandLinesReconstructed,
+      note: `${fmtQty(data.linesNeedingReview)} lines needing review`,
+    },
+    {
+      name: "Intelligence engine",
+      detail: "Patterns, forecasts and risk scoring — owned by the Python backend",
+      records: data.demandLinesReconstructed,
+      note: `${data.lastProcessingSeconds.toFixed(1)}s last processing time`,
+    },
+  ];
 
   return (
     <>
@@ -52,22 +81,31 @@ function PipelinePage() {
 
       <MetricGrid
         metrics={[
-          { key: "rows", label: "Rows ingested", value: fmtQty(data.rowsIngested) },
-          { key: "lines", label: "Demand lines reconstructed", value: fmtQty(data.linesReconstructed) },
-          { key: "run", label: "Last run", value: fmtDateTime(data.lastRunAt) },
+          { key: "rows", label: "Rows imported", value: fmtQty(data.rowsImported) },
+          {
+            key: "lines",
+            label: "Demand lines reconstructed",
+            value: fmtQty(data.demandLinesReconstructed),
+          },
+          { key: "run", label: "Last import", value: fmtDateTime(data.lastImportAt) },
           {
             key: "issues",
-            label: "Validation issues",
-            value: fmtQty(data.validationIssues),
-            hintTone: data.validationIssues > 0 ? "warning" : "success",
-            hint: data.validationIssues > 0 ? "Needs review" : "Clean",
+            label: "Lines needing review",
+            value: fmtQty(data.linesNeedingReview),
+            hintTone: data.linesNeedingReview > 0 ? "warning" : "success",
+            hint: data.linesNeedingReview > 0 ? "Needs review" : "Clean",
           },
         ]}
       />
 
-      <Panel title="Pipeline stages" subtitle="Each stage maps to a service in the Python backend" bodyClassName="p-0">
+      <Panel
+        title="Pipeline stages"
+        subtitle="Each stage maps to a service in the Python backend"
+        bodyClassName="p-0"
+        actions={<Tag variant={runTone[data.status]}>{data.status}</Tag>}
+      >
         <ol className="divide-y divide-border">
-          {data.stages.map((s, i) => (
+          {stages.map((s, i) => (
             <li key={s.name} className="flex flex-wrap items-center gap-3 px-4 py-3">
               <span className="font-mono text-xs text-muted-foreground">
                 {String(i + 1).padStart(2, "0")}
@@ -79,24 +117,27 @@ function PipelinePage() {
               <span className="font-mono text-xs text-muted-foreground">
                 {fmtQty(s.records)} records
               </span>
-              <span className="font-mono text-xs text-muted-foreground">{s.durationMs} ms</span>
-              <Tag variant={stageTone[s.status]}>{s.status}</Tag>
-              <span
-                className={cn(
-                  "h-1 w-16 rounded-full",
-                  s.status === "HEALTHY"
-                    ? "bg-success"
-                    : s.status === "DEGRADED"
-                      ? "bg-warning"
-                      : s.status === "FAILED"
-                        ? "bg-critical"
-                        : "bg-muted",
-                )}
-              />
+              <span className="font-mono text-xs text-muted-foreground">{s.note}</span>
+              <span className={cn("h-1 w-16 rounded-full", "bg-success")} />
             </li>
           ))}
         </ol>
       </Panel>
+
+      <Panel title="Processing log" subtitle="Last run telemetry" bodyClassName="p-0">
+        <ul className="divide-y divide-border">
+          {data.log.map((entry, i) => (
+            <li key={`${entry.at}-${i}`} className="flex flex-wrap items-center gap-3 px-4 py-2">
+              <span className="font-mono text-xs text-muted-foreground">
+                {fmtDateTime(entry.at)}
+              </span>
+              <Tag variant={logTone[entry.level]}>{entry.level}</Tag>
+              <span className="text-sm">{entry.message}</span>
+            </li>
+          ))}
+        </ul>
+      </Panel>
+
 
       <BackendNote>
         `getPipelineStatus()` will read real orchestration telemetry (Airflow / Prefect / cron) once
