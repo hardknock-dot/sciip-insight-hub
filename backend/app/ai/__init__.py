@@ -1,0 +1,2 @@
+"""SCIIP AI copilot layer."""
+

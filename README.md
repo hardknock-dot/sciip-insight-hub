@@ -1372,3 +1372,55 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+### Run the Python API and local Ollama Copilot
+
+The dashboard can use its mock data without the API. To enable the Python API and ask
+the Copilot questions about the local SCIIP database:
+
+1. Install [Ollama](https://ollama.com/download) on the same computer as the API, then
+   download a tool-capable model:
+
+   ```powershell
+   ollama pull qwen2.5:7b
+   ```
+
+2. Copy `backend/.env.example` to `backend/.env`. The example selects Ollama by default:
+
+   ```dotenv
+   AI_PROVIDER=ollama
+   OLLAMA_BASE_URL=http://localhost:11434/v1
+   OLLAMA_MODEL=qwen2.5:7b
+   ```
+
+   Keep `localhost` when Ollama and the Python API run on the same computer. No cloud
+   API key is needed for Ollama.
+
+3. In a PowerShell terminal, install the Python dependencies and start the API:
+
+   ```powershell
+   cd backend
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
+   python -m pip install -r ..\requirements.txt
+   uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+   ```
+
+4. In another terminal, start the frontend as described above. Verify the API at
+   `http://127.0.0.1:8000/docs`; the Copilot health endpoint is
+   `http://127.0.0.1:8000/api/copilot/health`.
+
+#### Using the app on another computer
+
+Copy the project files, but do not copy the existing `.env` files or `.venv`. On the
+new computer, install Python, Node.js, and Ollama; run `ollama pull qwen2.5:7b`; copy
+`backend/.env.example` to `backend/.env`; then create a new Python virtual environment
+and install the requirements using the commands above. Keep
+`OLLAMA_BASE_URL=http://localhost:11434/v1` if that computer runs both Ollama and the API.
+This ensures its own Ollama installation and model are used.
+
+If Ollama runs on a different computer from the API, set `OLLAMA_BASE_URL` in the
+API computer's `backend/.env` to `http://<ollama-computer-LAN-IP>:11434/v1`. Ollama must
+be configured to listen on the LAN and its port allowed through that computer's firewall.
+Only do this on a trusted private network: Ollama's local API does not provide
+authentication by default, so do not expose port 11434 to the public internet.
